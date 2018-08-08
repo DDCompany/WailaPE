@@ -148,7 +148,7 @@ const Waila = {
         let blockData = ToolAPI.getBlockData(id);
         let growthStages = this.getGrowthStages(id);
 
-        //Добавление прогресса раста растения
+        //Добавление прогресса роста растения
         if (growthStages > -1) {
             elements["growthValue"] = {
                 type: "text",
@@ -338,10 +338,9 @@ const Waila = {
     },
 
     /**
-     * Возвращает количество стадий роста для растения
+     * Возвращает количество стадий роста у растения
      * @param id айди блока
-     * @returns {Number} количество стадий. -1, если блок не является растением. Если блок заригестрирован как растение в
-     * Harvest_Core и не задано кастомное количество стадий, будет возвращать 3
+     * @returns {Number} количество стадий. -1, если блок не является растением.
      */
     getGrowthStages: function (id) {
         let stages = this.growthStages[id];
@@ -355,7 +354,7 @@ const Waila = {
     },
 
     /**
-     * Установка количества стадий роста у растения
+     * Установка количества стадий роста для растения
      * @param blockId айди блока
      * @param stages количество стадий
      */
