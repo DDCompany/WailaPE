@@ -87,7 +87,7 @@ const Waila = {
      * @param elements объект с элементами окна
      * @returns {number} необходимая высота окна
      */
-    addBlockInfo: function (id, data, elements) {
+    buildBlockInfo: function (id, data, elements) {
         let y = 100;
         let height = 90;
 
@@ -131,31 +131,14 @@ const Waila = {
 
             //Добавление шкалы, отображающей количество энергии в механизме
             if (tile.data.energy) {
-                let maxEnergy = tile.getEnergyStorage ? tile.getEnergyStorage() : "?";
-                let energy = tile.data.energy;
+                this.addBar({
+                    elements: elements,
+                    progress: tile.data.energy,
+                    progressMax: tile.getEnergyStorage ? tile.getEnergyStorage() : -1,
+                    prefix: "energy",
+                    yPos: y
+                });
 
-                elements["energyBarBg"] = {
-                    type: "image",
-                    bitmap: "waila_bar_bg",
-                    x: 200,
-                    y: y,
-                    scale: 3
-                };
-                elements["energyBar"] = {
-                    type: "scale",
-                    x: 200,
-                    y: y,
-                    value: maxEnergy === "?" ? 1 : energy / maxEnergy,
-                    bitmap: "waila_bar",
-                    scale: 3
-                };
-                elements["energy"] = {
-                    type: "text",
-                    text: energy + "/" + maxEnergy,
-                    x: 215,
-                    y: y + 8,
-                    font: {color: Color.WHITE, size: 40}
-                };
                 y += 80;
                 height += 30;
             }
@@ -220,7 +203,7 @@ const Waila = {
      * @param elements объект с элементами окна
      * @returns {number} необходимая высота окна
      */
-    addEntityInfo: function (entity, type, elements) {
+    buildEntityInfo: function (entity, type, elements) {
         elements["entityType"] = {
             type: "text",
             text: Waila.translate("waila.entity_type", "Entity Type") + ": " + type,
@@ -229,31 +212,12 @@ const Waila = {
             font: {color: Color.WHITE, size: 40}
         };
 
-        let health = Entity.getHealth(entity);
-        let maxHealth = Entity.getMaxHealth(entity);
-
-        elements["healthBarBg"] = {
-            type: "image",
-            bitmap: "waila_bar_bg",
-            x: 200,
-            y: 160,
-            scale: 3
-        };
-        elements["healthBar"] = {
-            type: "scale",
-            x: 200,
-            y: 160,
-            value: health / maxHealth,
-            bitmap: "waila_bar",
-            scale: 3
-        };
-        elements["health"] = {
-            type: "text",
-            text: health + "/" + maxHealth,
-            x: 215,
-            y: 168,
-            font: {color: Color.WHITE, size: 40}
-        };
+        this.addBar({
+            elements: elements,
+            progress: Entity.getHealth(entity),
+            progressMax: Entity.getMaxHealth(entity),
+            prefix: "health"
+        });
 
         return 90;
     },
@@ -283,14 +247,14 @@ const Waila = {
             let name = Item.getName(block.id, block.data);
             elements["name"].text = name.length <= 18 ? name : name.substr(0, 18) + "...";
 
-            height = this.addBlockInfo(block.id, block.data, elements);
+            height = this.buildBlockInfo(block.id, block.data, elements);
         } else {
             slot.id = 383;
             slot.data = type;
 
             elements["name"].text = this.translate("waila.entity", "Entity");
 
-            height = this.addEntityInfo(entity, type, elements);
+            height = this.buildEntityInfo(entity, type, elements);
         }
 
         if (this.lastHeight !== height || !this.container.isOpened()) {
@@ -304,6 +268,56 @@ const Waila = {
                 }
             }));
         }
+    },
+
+    /**
+     * Добавление шкалы в всплывающее окно
+     * @param obj объект, который может хранить следующие поля:
+     * elements(обязательное поле)  - список элементов, куда необходимо добавить шкалу,
+     * prefix(обязательное поле)    - префикс для элементов, имеет значение, если используются несколько шкал,
+     * progress                     - текущее значение прогресса,
+     * progressMax                  - максимальное значение прогресса,
+     * yPos                         - позиция шкалы по оси Y,
+     * barBgTexture                 - текстура заполненной шкалы,
+     * fontColor                    - цвет текста
+     */
+    addBar: function (obj) {
+        let elements = obj.elements;
+        let prefix = obj.prefix;
+
+        if (!elements || !prefix) {
+            Logger.Log("Elements or prefix property for Waila bar is not set", "ERROR");
+            return;
+        }
+
+
+        obj.progress = obj.progress || 0;
+        obj.barTexture = obj.barTexture || "waila_bar";
+        obj.barBgTexture = obj.barBgTexture || "waila_bar_bg";
+        let yPos = obj.yPos || 160;
+
+        elements[prefix + "BarBg"] = {
+            type: "image",
+            bitmap: obj.barBgTexture,
+            x: 200,
+            y: yPos,
+            scale: 3
+        };
+        elements[prefix + "Bar"] = {
+            type: "scale",
+            x: 200,
+            y: yPos,
+            value: obj.progressMax < 0 ? 1 : obj.progress / obj.progressMax,
+            bitmap: obj.barTexture,
+            scale: 3
+        };
+        elements[prefix] = {
+            type: "text",
+            text: obj.progress + "/" + obj.progressMax,
+            x: 215,
+            y: yPos + 8,
+            font: {color: obj.fontColor || Color.WHITE, size: 40}
+        };
     },
 
     /**
