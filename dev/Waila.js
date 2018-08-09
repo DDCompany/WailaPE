@@ -12,14 +12,18 @@ const Waila = {
      */
     growthStages: {},
     /**
-     * Объект, который хранит функции, добавляющие кастомную информацию в сплывающее окно. Ключом является айди блока
+     * Объект, который хранит функции, добавляющие кастомную информацию в всплывающее окно. Ключом является айди блока
      */
     extensions: {},
 
     /**
-     * Массив, который хранит функции, добавляющие кастомную информацию в сплывающее окно.
+     * Массив, который хранит функции, добавляющие кастомную информацию в всплывающее окно.
      */
     globalExtensions: [],
+    /**
+     * Высота всплывающего окна
+     */
+    height: 0,
 
     /**
      * Инициализация окна и установка количества стадий роста для ванильных растений
@@ -35,7 +39,7 @@ const Waila = {
                 x: WailaConfig.x,
                 y: WailaConfig.y,
                 width: 300,
-                height: 90
+                height: this.height
             },
 
             drawing: [
@@ -98,35 +102,24 @@ const Waila = {
      */
     buildBlockInfo: function (id, data, elements) {
         let y = 100;
-        let height = 90;
         let tile = World.getTileEntity(this.blockPos.x, this.blockPos.y, this.blockPos.z);
 
         //Добавляем информация из Extensions
         let extension = this.extensions[id];
         if (extension) {
-            let info = extension(id, data, elements, tile, height, y);
+            let info = extension(id, data, elements, tile, y);
             if (info) {
-                if (info.height)
-                    height = info.height;
-
-                if (info.yPos)
-                    y = info.yPos;
+                y = info;
             }
         }
 
         //Добавляем информация из Global Extensions
         for (let i in this.globalExtensions) {
-            let info = this.globalExtensions[i](id, data, elements, tile, height, y);
+            let info = this.globalExtensions[i](id, data, elements, tile, y);
             if (info) {
-                if (info.height)
-                    height = info.height;
-
-                if (info.yPos)
-                    y = info.yPos;
+                y = info;
             }
         }
-
-        return height
     },
 
     /**
@@ -151,8 +144,6 @@ const Waila = {
             progressMax: Entity.getMaxHealth(entity),
             prefix: "health"
         });
-
-        return 90;
     },
 
     /**
@@ -169,7 +160,6 @@ const Waila = {
                 elements[i] = null;
         }
 
-        let height;
         let slot = this.container.getSlot("slot");
         slot.count = 1;
 
@@ -180,20 +170,24 @@ const Waila = {
             let name = Item.getName(block.id, block.data);
             elements["name"].text = name.length <= 18 ? name : name.substr(0, 18) + "...";
 
-            height = this.buildBlockInfo(block.id, block.data, elements);
+            this.buildBlockInfo(block.id, block.data, elements);
         } else {
             slot.id = 383;
             slot.data = type;
 
             elements["name"].text = this.translate("waila.entity", "Entity");
 
-            height = this.buildEntityInfo(entity, type, elements);
+            this.buildEntityInfo(entity, type, elements);
         }
 
-        if (this.lastHeight !== height || !this.container.isOpened()) {
-            this.popupWindow.getLocation().setSize(300, height);
-            this.lastHeight = height;
-            elements["frame"].height = this.popupWindow.getLocation().globalToWindow(height);
+        this.height = Math.max(this.height, MINIMAL_WINDOW_HEIGHT);
+
+        if (this.lastHeight !== this.height || !this.container.isOpened()) {
+            let location = this.popupWindow.getLocation();
+
+            location.setSize(300, this.height);
+            this.lastHeight = this.height;
+            elements["frame"].height = location.globalToWindow(this.height);
 
             UI.getContext().runOnUiThread(new java.lang.Runnable({
                 run: function () {
@@ -201,6 +195,8 @@ const Waila = {
                 }
             }));
         }
+
+        this.height = 0;
     },
 
     /**
@@ -325,6 +321,14 @@ const Waila = {
         }
 
         this.globalExtensions.push(func);
+    },
+
+    /**
+     * Увеличивает необходимую для отображения элементов высоту всплывающего окна
+     * @param value число, на которое необходимо увеличить высоту
+     */
+    requireHeight: function (value) {
+        this.height += value;
     }
 };
 

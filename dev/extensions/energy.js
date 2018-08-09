@@ -1,5 +1,5 @@
 //Отображение количества энергии в TileEntity
-Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
+Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
     if (tile && tile.data.energy >= 0) {
         Waila.addBar({
             elements: elements,
@@ -10,8 +10,8 @@ Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
         });
 
         yPos += 80;
-        height += 30;
+        Waila.requireHeight(58);
     }
 
-    return {height: height, yPos: yPos};
+    return yPos;
 });

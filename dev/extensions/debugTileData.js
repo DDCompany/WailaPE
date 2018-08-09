@@ -1,5 +1,5 @@
 if (WailaConfig.tilesData) {
-    Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
+    Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
         if (tile) {
             for (let i in tile.data) {
                 elements["tileData" + i] = {
@@ -10,10 +10,10 @@ if (WailaConfig.tilesData) {
                     font: {color: data.color || Color.WHITE, size: 40}
                 };
                 yPos += 60;
-                height += 20;
+                Waila.requireHeight(20);
             }
         }
 
-        return {height: height, yPos: yPos};
+        return yPos;
     });
 }

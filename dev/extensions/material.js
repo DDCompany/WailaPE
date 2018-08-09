@@ -1,5 +1,5 @@
 //Отображение информации о материале, уровне ломания, возможности сломать данный блок
-Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
+Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
     let blockData = ToolAPI.getBlockData(id);
 
     if (blockData) {
@@ -30,7 +30,8 @@ Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
                 size: 40,
             }
         };
+        Waila.requireHeight(60);
     }
 
-    return {height: height, yPos: yPos};
+    return yPos;
 });

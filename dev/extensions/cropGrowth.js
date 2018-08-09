@@ -1,5 +1,5 @@
 //Отображение прогресса роста растения
-Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
+Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
     let growthStages = Waila.getGrowthStages(id);
 
     if (growthStages > -1) {
@@ -11,10 +11,8 @@ Waila.addGlobalExtension(function (id, data, elements, tile, height, yPos) {
             font: {color: Color.WHITE, size: 40}
         };
         yPos += 60;
-        height += 20;
-        //if (blockData)
-        //    height += 20;
+        Waila.requireHeight(20);
     }
 
-    return {height: height, yPos: yPos};
+    return yPos;
 });
