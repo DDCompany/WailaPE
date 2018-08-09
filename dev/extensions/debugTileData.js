@@ -7,7 +7,7 @@ if (WailaConfig.tilesData) {
                     text: i + ": " + tile.data[i],
                     x: 200,
                     y: yPos,
-                    font: {color: data.color || Color.WHITE, size: 40}
+                    font: {color: Style.DEF, size: 40}
                 };
                 yPos += 60;
                 Waila.requireHeight(20);

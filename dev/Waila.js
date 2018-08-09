@@ -43,9 +43,19 @@ const Waila = {
             },
 
             drawing: [
-                {type: "color", color: Color.rgb(18, 2, 17)}
+                {type: "color", color: Style.COLOR}
             ],
             elements: {
+                "frame": {
+                    type: "frame",
+                    x: 0,
+                    y: 0,
+                    z: -1,
+                    width: 1000,
+                    height: 300,
+                    bitmap: Style.TEX_FRAME,
+                    scale: 5,
+                },
                 "slot": {
                     type: "slot",
                     x: 10,
@@ -61,18 +71,8 @@ const Waila = {
                     text: "",
                     x: 200,
                     y: 30,
-                    font: {color: Color.WHITE, size: 50}
-                },
-
-                "frame": {
-                    type: "frame",
-                    x: 0,
-                    y: 0,
-                    width: 1000,
-                    height: 300,
-                    bitmap: "waila_frame",
-                    scale: 5,
-                },
+                    font: {color: Style.DEF, size: 50}
+                }
             }
         });
 
@@ -135,7 +135,7 @@ const Waila = {
             text: Waila.translate("waila.entity_type", "Entity Type") + ": " + type,
             x: 200,
             y: 100,
-            font: {color: Color.WHITE, size: 40}
+            font: {color: Style.DEF, size: 40}
         };
 
         this.addBar({
@@ -222,22 +222,22 @@ const Waila = {
 
         obj.progress = obj.progress || 0;
         obj.barTexture = obj.barTexture || "waila_bar";
-        obj.barBgTexture = obj.barBgTexture || "waila_bar_bg";
+        obj.barBgTexture = obj.barBgTexture || Style.TEX_BAR_FRAME;
         let yPos = obj.yPos || 160;
 
-        elements[prefix + "BarBg"] = {
-            type: "image",
-            bitmap: obj.barBgTexture,
-            x: 200,
-            y: yPos,
-            scale: 3
-        };
         elements[prefix + "Bar"] = {
             type: "scale",
             x: 200,
             y: yPos,
             value: obj.progressMax < 0 ? 1 : obj.progress / obj.progressMax,
             bitmap: obj.barTexture,
+            scale: 3
+        };
+        elements[prefix + "BarBg"] = {
+            type: "image",
+            bitmap: obj.barBgTexture,
+            x: 200,
+            y: yPos,
             scale: 3
         };
         elements[prefix] = {

@@ -3,5 +3,6 @@
   "x": 0,
   "y": 0,
   "checkTime": 20,
-  "tilesData": false
+  "tilesData": false,
+  "style": "default"
 }

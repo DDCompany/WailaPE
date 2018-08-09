@@ -1,8 +1,12 @@
 ## HEADER
 header.js
+WailaConfig.js
+
+## STYLES
+Style.js
+StyleManager.js
 
 ## API
-WailaConfig.js
 Waila.js
 
 ### EXTENSIONS

@@ -8,7 +8,7 @@ Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
             text: Waila.translate("waila.growth", "Growth") + ": " + Math.floor(data / growthStages * 100) + "%",
             x: 200,
             y: yPos,
-            font: {color: Color.WHITE, size: 40}
+            font: {color: Style.DEF, size: 40}
         };
         yPos += 60;
         Waila.requireHeight(20);

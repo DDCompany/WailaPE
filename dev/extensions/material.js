@@ -8,7 +8,7 @@ Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
             text: Waila.translate("waila.material", "Material") + ": " + blockData.material.name,
             x: 200,
             y: yPos,
-            font: {color: Color.WHITE, size: 40}
+            font: {color: Style.DEF, size: 40}
         };
         yPos += 60;
         elements["materialLevel"] = {
@@ -16,7 +16,7 @@ Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
             text: Waila.translate("waila.level", "Level") + ": " + blockData.level,
             x: 200,
             y: yPos,
-            font: {color: Color.WHITE, size: 40}
+            font: {color: Style.DEF, size: 40}
         };
         yPos += 60;
         let validTool = Waila.isValidTool(blockData.material.name, blockData.level);
@@ -26,7 +26,7 @@ Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
             x: 200,
             y: yPos,
             font: {
-                color: validTool ? Color.GREEN : Color.RED,
+                color: validTool ? Style.OK : Style.NO,
                 size: 40,
             }
         };

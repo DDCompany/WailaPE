@@ -1,0 +1,17 @@
+{
+  "default": {
+
+  },
+  "oneprobe": {
+    "TEX_FRAME": "waila_frame.oneprobe",
+    "COLOR": {
+      "r": 53,
+      "g": 160,
+      "b": 187,
+      "a": 200
+    }
+  },
+  "transparent": {
+    "TEX_FRAME": "waila_frame.transparent"
+  }
+}
