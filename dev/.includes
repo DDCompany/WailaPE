@@ -1,4 +1,16 @@
+## HEADER
 header.js
+
+## API
 WailaConfig.js
-translation.js
 Waila.js
+
+### EXTENSIONS
+extensions/energy.js
+extensions/debugTileData.js
+extensions/cropGrowth.js
+extensions/material.js
+
+## LOCALIZATION
+translation.js
+

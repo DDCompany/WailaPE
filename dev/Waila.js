@@ -11,6 +11,15 @@ const Waila = {
      * Объект, который хранит количество стадий роста у определённых растений. Ключом является айди блока.
      */
     growthStages: {},
+    /**
+     * Объект, который хранит функции, добавляющие кастомную информацию в сплывающее окно. Ключом является айди блока
+     */
+    extensions: {},
+
+    /**
+     * Массив, который хранит функции, добавляющие кастомную информацию в сплывающее окно.
+     */
+    globalExtensions: [],
 
     /**
      * Инициализация окна и установка количества стадий роста для ванильных растений
@@ -90,110 +99,34 @@ const Waila = {
     buildBlockInfo: function (id, data, elements) {
         let y = 100;
         let height = 90;
-
-        //Добаление кастомной информации из TileEntity
         let tile = World.getTileEntity(this.blockPos.x, this.blockPos.y, this.blockPos.z);
-        if (tile) {
-            if (tile.getDataForWaila) {
-                let wailaData = tile.getDataForWaila();
 
-                for (let i in wailaData) {
-                    let data = wailaData[i];
+        //Добавляем информация из Extensions
+        let extension = this.extensions[id];
+        if (extension) {
+            let info = extension(id, data, elements, tile, height, y);
+            if (info) {
+                if (info.height)
+                    height = info.height;
 
-                    if (!data.text)
-                        continue;
-
-                    elements["text" + i] = {
-                        type: "text",
-                        text: data.text,
-                        x: 200,
-                        y: y,
-                        font: {color: data.color || Color.WHITE, size: 40}
-                    };
-                    y += 60;
-                    height += 20;
-                }
+                if (info.yPos)
+                    y = info.yPos;
             }
-
-            if (WailaConfig.tilesData) {
-                for (let i in tile.data) {
-                    elements["text" + i] = {
-                        type: "text",
-                        text: i + ": " + tile.data[i],
-                        x: 200,
-                        y: y,
-                        font: {color: data.color || Color.WHITE, size: 40}
-                    };
-                    y += 60;
-                    height += 20;
-                }
-            }
-
-            //Добавление шкалы, отображающей количество энергии в механизме
-            if (tile.data.energy) {
-                this.addBar({
-                    elements: elements,
-                    progress: tile.data.energy,
-                    progressMax: tile.getEnergyStorage ? tile.getEnergyStorage() : -1,
-                    prefix: "energy",
-                    yPos: y
-                });
-
-                y += 80;
-                height += 30;
-            }
-
         }
 
-        let blockData = ToolAPI.getBlockData(id);
-        let growthStages = this.getGrowthStages(id);
+        //Добавляем информация из Global Extensions
+        for (let i in this.globalExtensions) {
+            let info = this.globalExtensions[i](id, data, elements, tile, height, y);
+            if (info) {
+                if (info.height)
+                    height = info.height;
 
-        //Добавление прогресса роста растения
-        if (growthStages > -1) {
-            elements["growthValue"] = {
-                type: "text",
-                text: Waila.translate("waila.growth", "Growth") + ": " + Math.floor(data / growthStages * 100) + "%",
-                x: 200,
-                y: y,
-                font: {color: Color.WHITE, size: 40}
-            };
-            y += 60;
-            if (blockData)
-                height += 20;
+                if (info.yPos)
+                    y = info.yPos;
+            }
         }
 
-        //Добавление информации о материале, уровне ломания, возможности сломать данный блок
-        if (blockData) {
-            elements["materialName"] = {
-                type: "text",
-                text: Waila.translate("waila.material", "Material") + ": " + blockData.material.name,
-                x: 200,
-                y: y,
-                font: {color: Color.WHITE, size: 40}
-            };
-            y += 60;
-            elements["materialLevel"] = {
-                type: "text",
-                text: Waila.translate("waila.level", "Level") + ": " + blockData.level,
-                x: 200,
-                y: y,
-                font: {color: Color.WHITE, size: 40}
-            };
-            y += 60;
-            let validTool = Waila.isValidTool(blockData.material.name, blockData.level);
-            elements["isHarvestable"] = {
-                type: "text",
-                text: (validTool ? "✔" : "✖") + " " + Waila.translate("waila.harvestable", "Currently Harvestable"),
-                x: 200,
-                y: y,
-                font: {
-                    color: validTool ? Color.GREEN : Color.RED,
-                    size: 40,
-                }
-            };
-        }
-
-        return height;
+        return height
     },
 
     /**
@@ -360,6 +293,38 @@ const Waila = {
      */
     setGrowthStages: function (blockId, stages) {
         this.growthStages[blockId] = stages;
+    },
+
+    /**
+     * Добавление расширения для определённого блока
+     * @param id айди блока
+     * @param func функция, вызываемая при отрисовки окна. Передаваемые аргументы: id, data, elements, tile, height, yPos
+     */
+    addExtension: function (id, func) {
+        if (!id) {
+            Logger.Log("Block id is not correct (Extension Registration)", "ERROR");
+            return;
+        }
+
+        if (!func) {
+            Logger.Log("Function is not correct (Extension Registration)", "ERROR");
+            return;
+        }
+
+        this.extensions[id] = func;
+    },
+
+    /**
+     * Добавление расширения для всех блоков
+     * @param func функция, вызываемая при отрисовки окна. Передаваемые аргументы: id, data, elements, tile, height, yPos
+     */
+    addGlobalExtension: function (func) {
+        if (!func) {
+            Logger.Log("Function is not correct (Global Extension Registration)", "ERROR");
+            return;
+        }
+
+        this.globalExtensions.push(func);
     }
 };
 
@@ -399,7 +364,6 @@ Callback.addCallback("tick", function () {
         Waila.container.close();
     }
 });
-
 Callback.addCallback("NativeGuiChanged", function (screenName) {
     if (!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
         Waila.container.close();
