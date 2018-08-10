@@ -19,3 +19,5 @@ extensions/material.js
 ## LOCALIZATION
 translation.js
 
+## SHARE MOD API
+shared.js
