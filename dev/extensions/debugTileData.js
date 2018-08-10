@@ -1,4 +1,4 @@
-if (WailaConfig.tilesData) {
+if (WailaConfig.extDebugTiles) {
     Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
         if (tile) {
             for (let i in tile.data) {
