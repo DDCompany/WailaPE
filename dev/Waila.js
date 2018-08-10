@@ -345,8 +345,8 @@ const Waila = {
 Waila.init();
 
 Callback.addCallback("tick", function () {
-    if (World.getThreadTime() % WailaConfig.checkTime === 0) {
-        if (Waila.enableToShow) {
+    if (Waila.enableToShow) {
+        if (World.getThreadTime() % WailaConfig.checkTime === 0) {
             let pointed = getPointed();
             let pos = pointed.pos;
             let lastPos = Waila.blockPos;
@@ -373,14 +373,13 @@ Callback.addCallback("tick", function () {
                 return;
             }
 
+            Waila.container.close();
         }
-
+    }else if(Waila.container.isOpened()) {
         Waila.container.close();
     }
 });
 Callback.addCallback("NativeGuiChanged", function (screenName) {
-    if (!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
-        Waila.container.close();
-    }
+    Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen";
 });
 
