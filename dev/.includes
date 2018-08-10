@@ -8,6 +8,7 @@ StyleManager.js
 
 ## API
 Waila.js
+BlockList.js
 
 ### EXTENSIONS
 extensions/energy.js

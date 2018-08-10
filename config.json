@@ -4,5 +4,8 @@
   "y": 0,
   "checkTime": 20,
   "tilesData": false,
+  "extensions": {
+    "modName": true
+  },
   "style": "default"
 }

@@ -30,7 +30,8 @@ Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
                 size: 40,
             }
         };
-        Waila.requireHeight(60);
+        yPos += 60;
+        Waila.requireHeight(58);
     }
 
     return yPos;

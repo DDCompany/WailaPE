@@ -58,6 +58,7 @@ let StyleManager = {
                 this.compileColor(style, "OK");
                 this.compileColor(style, "NO");
                 this.compileColor(style, "DEF");
+                this.compileColor(style, "MOD");
                 this.compileColor(style, "COLOR");
 
                 this.styles[i] = style;

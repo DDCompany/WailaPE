@@ -15,7 +15,6 @@ const Waila = {
      * Объект, который хранит функции, добавляющие кастомную информацию в всплывающее окно. Ключом является айди блока
      */
     extensions: {},
-
     /**
      * Массив, который хранит функции, добавляющие кастомную информацию в всплывающее окно.
      */
@@ -23,7 +22,7 @@ const Waila = {
     /**
      * Высота всплывающего окна
      */
-    height: 0,
+    height: 35,
 
     /**
      * Инициализация окна и установка количества стадий роста для ванильных растений
@@ -120,6 +119,17 @@ const Waila = {
                 y = info;
             }
         }
+
+        if (WailaConfig.extModName) {
+            elements["modName"] = {
+                type: "text",
+                text: BlockList.getModName(id),
+                x: 200,
+                y: y,
+                font: {color: Style.MOD, size: 40}
+            };
+            Waila.requireHeight(15);
+        }
     },
 
     /**
@@ -196,7 +206,7 @@ const Waila = {
             }));
         }
 
-        this.height = 0;
+        this.height = 35;
     },
 
     /**
