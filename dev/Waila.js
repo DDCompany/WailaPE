@@ -380,6 +380,8 @@ Callback.addCallback("tick", function () {
     }
 });
 Callback.addCallback("NativeGuiChanged", function (screenName) {
-    Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen";
+    if(!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
+        Waila.container.close();
+    }
 });
 
