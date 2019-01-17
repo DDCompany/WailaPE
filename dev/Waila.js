@@ -103,7 +103,7 @@ const Waila = {
         let y = 100;
         let tile = World.getTileEntity(this.blockPos.x, this.blockPos.y, this.blockPos.z);
 
-        //Добавляем информация из Extensions
+        //Добавляем информацию из Extensions
         let extension = this.extensions[id];
         if (extension) {
             let info = extension(id, data, elements, tile, y);
@@ -112,7 +112,7 @@ const Waila = {
             }
         }
 
-        //Добавляем информация из Global Extensions
+        //Добавляем информацию из Global Extensions
         for (let i in this.globalExtensions) {
             let info = this.globalExtensions[i](id, data, elements, tile, y);
             if (info) {
@@ -148,12 +148,14 @@ const Waila = {
             font: {color: Style.DEF, size: 40}
         };
 
-        this.addBar({
-            elements: elements,
-            progress: Entity.getHealth(entity),
-            progressMax: Entity.getMaxHealth(entity),
-            prefix: "health"
-        });
+        if (type < 64 || type > 103) {
+            this.addBar({
+                elements: elements,
+                progress: Entity.getHealth(entity),
+                progressMax: Entity.getMaxHealth(entity),
+                prefix: "health"
+            });
+        }
     },
 
     /**
