@@ -9,4 +9,5 @@ const WailaConfig = {
     extDebugTiles: __config__.getBool("extensions.debugTiles"),
     extEnergy: __config__.getBool("extensions.energy"),
     extMaterial: __config__.getBool("extensions.material"),
+    extBlockIdData: __config__.getBool("extensions.blockIdData"),
 };

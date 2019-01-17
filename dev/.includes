@@ -15,6 +15,7 @@ extensions/energy.js
 extensions/debugTileData.js
 extensions/cropGrowth.js
 extensions/material.js
+extensions/blockId.js
 
 ## LOCALIZATION
 translation.js

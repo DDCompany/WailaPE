@@ -8,7 +8,8 @@
     "cropGrowth": true,
     "debugTiles": false,
     "energy": true,
-    "material": true
+    "material": true,
+    "blockIdData": false
   },
   "style": "default"
 }
