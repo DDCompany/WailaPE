@@ -119,17 +119,6 @@ const Waila = {
                 y = info;
             }
         }
-
-        if (WailaConfig.extModName) {
-            elements["modName"] = {
-                type: "text",
-                text: BlockList.getModName(id),
-                x: 200,
-                y: y,
-                font: {color: Style.MOD, size: 40}
-            };
-            Waila.requireHeight(15);
-        }
     },
 
     /**
@@ -355,11 +344,13 @@ Callback.addCallback("tick", function () {
             let entity = Waila.pointedEntity;
             Waila.lastTool = Player.getCarriedItem().id;
 
-            if (lastPos && lastPos.x === pos.x && lastPos.y === pos.y && lastPos.z === pos.z)
+            if (lastPos && lastPos.x === pos.x && lastPos.y === pos.y && lastPos.z === pos.z) {
                 return;
+            }
 
-            if (entity !== -1 && pointed.entity === entity)
+            if (entity !== 0 && pointed.entity === entity) {
                 return;
+            }
 
             Waila.blockPos = pos;
             entity = Waila.pointedEntity = pointed.entity;
@@ -370,7 +361,7 @@ Callback.addCallback("tick", function () {
             }
 
             let type = Entity.getType(entity);
-            if (entity !== -1 && type !== 71) {
+            if (entity !== 0 && type !== 71) {
                 Waila.showPopup(null, entity, type);
                 return;
             }
