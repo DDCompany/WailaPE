@@ -348,7 +348,7 @@ Callback.addCallback("tick", function () {
                 return;
             }
 
-            if (entity !== 0 && pointed.entity === entity) {
+            if (entity !== -1 && pointed.entity === entity) {
                 return;
             }
 
@@ -356,24 +356,31 @@ Callback.addCallback("tick", function () {
             entity = Waila.pointedEntity = pointed.entity;
 
             if (pos.x !== 0 || pos.y !== 0 || pos.z !== 0) {
-                Waila.showPopup(World.getBlock(pos.x, pos.y, pos.z));
+                let block = World.getBlock(pos.x, pos.y, pos.z);
+                if (block.id > 255) {
+                    block = {
+                        id: 255 - block.id,
+                        data: block.data
+                    };
+                }
+                Waila.showPopup(block);
                 return;
             }
 
             let type = Entity.getType(entity);
-            if (entity !== 0 && type !== 71) {
+            if (entity !== -1 && type !== 71) {
                 Waila.showPopup(null, entity, type);
                 return;
             }
 
             Waila.container.close();
         }
-    }else if(Waila.container.isOpened()) {
+    } else if (Waila.container.isOpened()) {
         Waila.container.close();
     }
 });
 Callback.addCallback("NativeGuiChanged", function (screenName) {
-    if(!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
+    if (!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
         Waila.container.close();
     }
 });
