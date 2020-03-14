@@ -1,5 +1,3 @@
-const OPENED_WINDOWS = [];
-
 const Waila = {
     /**
      * Контейнер для окна
@@ -78,13 +76,6 @@ const Waila = {
         });
 
         this.popupWindow.setAsGameOverlay(true);
-    },
-
-    /**
-     * @returns {boolean} может ли быть открыто окно Waila в данный момент
-     */
-    mayPopupShow: function () {
-        return Waila.validNativeUI && OPENED_WINDOWS.length === 0
     },
 
     /**
@@ -365,7 +356,14 @@ Callback.addCallback("tick", function () {
             entity = Waila.pointedEntity = pointed.entity;
 
             if (pos.x !== 0 || pos.y !== 0 || pos.z !== 0) {
-                Waila.showPopup(World.getBlock(pos.x, pos.y, pos.z));
+                let block = World.getBlock(pos.x, pos.y, pos.z);
+                if (block.id > 255) {
+                    block = {
+                        id: 255 - block.id,
+                        data: block.data
+                    };
+                }
+                Waila.showPopup(block);
                 return;
             }
 
