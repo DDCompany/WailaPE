@@ -1,12 +1,14 @@
+const OPENED_WINDOWS = [];
+
 const Waila = {
     /**
      * Контейнер для окна
      */
     container: new UI.Container(),
     /**
-     * Нужно ли показывать всплывающее окно. Имеет значение false, если текущий экран не hud_screen и не in_game_play_screen
+     * Имеет значение false, если текущий экран не hud_screen и не in_game_play_screen
      */
-    enableToShow: false,
+    validNativeUI: false,
     /**
      * Объект, который хранит количество стадий роста у определённых растений. Ключом является айди блока.
      */
@@ -76,6 +78,13 @@ const Waila = {
         });
 
         this.popupWindow.setAsGameOverlay(true);
+    },
+
+    /**
+     * @returns {boolean} может ли быть открыто окно Waila в данный момент
+     */
+    mayPopupShow: function () {
+        return Waila.validNativeUI && OPENED_WINDOWS.length === 0
     },
 
     /**
@@ -336,7 +345,7 @@ const Waila = {
 Waila.init();
 
 Callback.addCallback("tick", function () {
-    if (Waila.enableToShow) {
+    if (Waila.mayPopupShow()) {
         if (World.getThreadTime() % WailaConfig.checkTime === 0) {
             let pointed = getPointed();
             let pos = pointed.pos;
@@ -348,7 +357,7 @@ Callback.addCallback("tick", function () {
                 return;
             }
 
-            if (entity !== 0 && pointed.entity === entity) {
+            if (entity !== -1 && pointed.entity === entity) {
                 return;
             }
 
@@ -361,20 +370,29 @@ Callback.addCallback("tick", function () {
             }
 
             let type = Entity.getType(entity);
-            if (entity !== 0 && type !== 71) {
+            if (entity !== -1 && type !== 71) {
                 Waila.showPopup(null, entity, type);
                 return;
             }
 
             Waila.container.close();
         }
-    }else if(Waila.container.isOpened()) {
-        Waila.container.close();
-    }
-});
-Callback.addCallback("NativeGuiChanged", function (screenName) {
-    if(!(Waila.enableToShow = screenName === "hud_screen" || screenName === "in_game_play_screen")) {
+    } else if (Waila.container.isOpened()) {
         Waila.container.close();
     }
 });
 
+Callback.addCallback("NativeGuiChanged", function (screenName) {
+    Waila.validNativeUI = screenName === "hud_screen" || screenName === "in_game_play_screen"
+});
+
+Callback.addCallback("ContainerOpened", function (container, window) {
+    if (!window.equals(Waila.popupWindow))
+        OPENED_WINDOWS.push(window);
+});
+
+Callback.addCallback("ContainerClosed", function (container, window) {
+    let index = OPENED_WINDOWS.indexOf(window);
+    if (index !== -1)
+        OPENED_WINDOWS.splice(index, 1);
+});
