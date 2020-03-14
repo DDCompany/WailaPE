@@ -1,3 +1,5 @@
+const OPENED_WINDOWS = [];
+
 const Waila = {
     /**
      * Контейнер для окна
@@ -76,6 +78,13 @@ const Waila = {
         });
 
         this.popupWindow.setAsGameOverlay(true);
+    },
+
+    /**
+     * @returns {boolean} может ли быть открыто окно Waila в данный момент
+     */
+    mayPopupShow: function () {
+        return Waila.validNativeUI && OPENED_WINDOWS.length === 0
     },
 
     /**
