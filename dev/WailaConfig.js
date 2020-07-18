@@ -4,7 +4,6 @@ const WailaConfig = {
     y: __config__.getNumber("y"),
     style: __config__.getString("style"),
 
-    extModName: __config__.getBool("extensions.modName"),
     extCropGrowth: __config__.getBool("extensions.cropGrowth"),
     extDebugTiles: __config__.getBool("extensions.debugTiles"),
     extEnergy: __config__.getBool("extensions.energy"),
