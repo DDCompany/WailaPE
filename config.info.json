@@ -1,0 +1,77 @@
+{
+  "properties": {
+    "enabled": {
+      "name": {
+        "en": "Enabled",
+        "ru": "Включен"
+      }
+    },
+    "x": {
+      "name": {
+        "en": "Window X Position",
+        "ru": "Позиция окна по оси X"
+      },
+      "type": "SeekBar",
+      "min": 0,
+      "max": 700
+    },
+    "y": {
+      "name": {
+        "en": "Window Y Position",
+        "ru": "Позиция окна по оси Y"
+      }
+    },
+    "style": {
+      "name": {
+        "en": "Style of window",
+        "ru": "Стиль окна"
+      },
+      "description": {
+        "en": "Specify style of the popup window. Default ones is 'default', 'oneprobe', 'transparent'",
+        "ru": "Определяет стиль всплывающего окна. Стандартные стили: 'default', 'oneprobe', 'transparent'"
+      }
+    },
+    "checkTime": {
+      "name": {
+        "en": "Window update interval",
+        "ru": "Интервал обновления окна"
+      }
+    },
+    "extensions": {
+      "name": {
+        "en": "Extensions",
+        "ru": "Расширения"
+      }
+    },
+    "extensions.cropGrowth": {
+      "name": {
+        "en": "Plants Growth Progress",
+        "ru": "Прогресс роста растений"
+      }
+    },
+    "extensions.debugTiles": {
+      "name": {
+        "en": "Data of TileEntities",
+        "ru": "Данные TileEntity"
+      }
+    },
+    "extensions.energy": {
+      "name": {
+        "en": "Display energy",
+        "ru": "Энергия"
+      }
+    },
+    "extensions.material": {
+      "name": {
+        "en": "Block Material",
+        "ru": "Материал блоков"
+      }
+    },
+    "extensions.blockIdData": {
+      "name": {
+        "en": "Block ID and Data",
+        "ru": "ID и Data блоков"
+      }
+    }
+  }
+}

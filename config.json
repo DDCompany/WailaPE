@@ -4,7 +4,6 @@
   "y": 0,
   "checkTime": 20,
   "extensions": {
-    "modName": true,
     "cropGrowth": true,
     "debugTiles": false,
     "energy": true,
