@@ -366,7 +366,7 @@ Callback.addCallback("tick", function () {
 
             if (pos.x !== 0 || pos.y !== 0 || pos.z !== 0) {
                 let block = World.getBlock(pos.x, pos.y, pos.z);
-                if (block.id > 255) {
+                if (block.id > 255 && block.id < 8196) {
                     block = {
                         id: 255 - block.id,
                         data: block.data
