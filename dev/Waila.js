@@ -394,7 +394,12 @@ Callback.addCallback("NativeGuiChanged", function (screenName) {
 });
 
 Callback.addCallback("ContainerOpened", function (container, window) {
-    if (!window.equals(Waila.popupWindow))
+    if (!window.isNotFocusable) { //WindowGroup
+        OPENED_WINDOWS.push(window);
+        return;
+    }
+
+    if (!window.equals(Waila.popupWindow) && !window.isNotFocusable())
         OPENED_WINDOWS.push(window);
 });
 
