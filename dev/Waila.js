@@ -78,6 +78,7 @@ const Waila = {
         });
 
         this.popupWindow.setAsGameOverlay(true);
+        this.popupWindow.setTouchable(false);
     },
 
     /**
