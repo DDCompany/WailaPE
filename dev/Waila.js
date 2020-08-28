@@ -348,16 +348,15 @@ Waila.init();
 Callback.addCallback("tick", function () {
     if (Waila.mayPopupShow()) {
         if (World.getThreadTime() % WailaConfig.checkTime === 0) {
-            let pointed = getPointed();
-            let pos = pointed.pos;
-            let lastPos = Waila.blockPos;
-            let entity = Waila.pointedEntity;
-            Waila.lastTool = Player.getCarriedItem().id;
+            const pointed = getPointed();
+            const pos = pointed.pos;
+            const lastPos = Waila.blockPos;
 
             if (lastPos && lastPos.x === pos.x && lastPos.y === pos.y && lastPos.z === pos.z) {
                 return;
             }
 
+            let entity = Waila.pointedEntity;
             if (entity !== -1 && pointed.entity === entity) {
                 return;
             }
@@ -366,14 +365,12 @@ Callback.addCallback("tick", function () {
             entity = Waila.pointedEntity = pointed.entity;
 
             if (pos.x !== 0 || pos.y !== 0 || pos.z !== 0) {
-                let block = World.getBlock(pos.x, pos.y, pos.z);
+                const block = World.getBlock(pos.x, pos.y, pos.z);
                 if (block.id !== 0) {
                     if (block.id > 255 && block.id < 8196) {
-                        block = {
-                            id: 255 - block.id,
-                            data: block.data
-                        };
+                        block.id = 255 - block.id;
                     }
+                    Waila.lastTool = Player.getCarriedItem().id;
                     Waila.showPopup(block);
                 }
                 return;
