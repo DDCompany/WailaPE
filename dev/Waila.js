@@ -367,13 +367,15 @@ Callback.addCallback("tick", function () {
 
             if (pos.x !== 0 || pos.y !== 0 || pos.z !== 0) {
                 let block = World.getBlock(pos.x, pos.y, pos.z);
-                if (block.id > 255 && block.id < 8196) {
-                    block = {
-                        id: 255 - block.id,
-                        data: block.data
-                    };
+                if (block.id !== 0) {
+                    if (block.id > 255 && block.id < 8196) {
+                        block = {
+                            id: 255 - block.id,
+                            data: block.data
+                        };
+                    }
+                    Waila.showPopup(block);
                 }
-                Waila.showPopup(block);
                 return;
             }
 
