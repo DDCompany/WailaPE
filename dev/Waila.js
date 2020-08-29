@@ -139,20 +139,39 @@ const Waila = {
      * @returns {number} необходимая высота окна
      */
     buildEntityInfo: function (entity, type, elements) {
+        const compoundTag = Entity.getCompoundTag(entity);
+        const customName = compoundTag.getString("CustomName");
+        const age = compoundTag.getInt("Age");
+        const id = compoundTag.getString("identifier");
+        let yPos = 160;
+
+        elements["name"].text = customName.isEmpty() ? this.translate("waila.entity", "Entity") : customName;
         elements["entityType"] = {
             type: "text",
-            text: Waila.translate("waila.entity_type", "Entity Type") + ": " + type,
+            text: Waila.translate("waila.entity_type", "Entity Type") + ": " + id,
             x: 200,
             y: 100,
             font: {color: Style.DEF, size: 40}
         };
+
+        if(age < 0) {
+            elements["age"] = {
+                type: "text",
+                text: Waila.translate("waila.growth", "Growth") + ": " + Math.floor(Math.abs(age) / 20) + Waila.translate("waila.s", "s"),
+                x: 200,
+                y: yPos,
+                font: {color: Style.DEF, size: 40}
+            };
+            yPos += 60;
+        }
 
         if (type < 64 || type > 103) {
             this.addBar({
                 elements: elements,
                 progress: Entity.getHealth(entity),
                 progressMax: Entity.getMaxHealth(entity),
-                prefix: "health"
+                prefix: "health",
+                yPos: yPos
             });
         }
     },
@@ -185,8 +204,6 @@ const Waila = {
         } else {
             slot.id = 383;
             slot.data = type;
-
-            elements["name"].text = this.translate("waila.entity", "Entity");
 
             this.buildEntityInfo(entity, type, elements);
         }
