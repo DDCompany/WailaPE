@@ -1,23 +1,23 @@
 ## HEADER
-header.js
-WailaConfig.js
+header.ts
+WailaConfig.ts
 
 ## STYLES
-Style.js
-StyleManager.js
+Style.ts
+StyleManager.ts
 
 ## API
-Waila.js
+Waila.ts
 
 ### EXTENSIONS
-extensions/energy.js
-extensions/debugTileData.js
-extensions/cropGrowth.js
-extensions/material.js
-extensions/blockId.js
+extensions/energy.ts
+extensions/debugTileData.ts
+extensions/cropGrowth.ts
+extensions/material.ts
+extensions/blockId.ts
 
 ## LOCALIZATION
-translation.js
+translation.ts
 
 ## SHARE MOD API
-shared.js
+shared.ts
