@@ -8,7 +8,6 @@
     by DDCompany (https://vk.com/forestry_pe)
  */
 IMPORT("Harvest_Core");
-
-const getPointed = ModAPI.requireGlobal("Player.getPointed");
-const Color = android.graphics.Color;
-const MINIMAL_WINDOW_HEIGHT = 90;
+var getPointed = ModAPI.requireGlobal("Player.getPointed");
+var Color = android.graphics.Color;
+var MINIMAL_WINDOW_HEIGHT = 90;
