@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "x": 0,
-  "y": 0,
+  "y": 30,
   "checkTime": 20,
   "extensions": {
     "cropGrowth": true,
@@ -10,5 +10,5 @@
     "material": true,
     "blockIdData": false
   },
-  "style": "default"
+  "style": "transparent"
 }

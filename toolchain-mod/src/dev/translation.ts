@@ -1,4 +1,5 @@
 Translation.addTranslation("waila.growth", {ru: "Рост"});
+Translation.addTranslation("waila.s", {ru: "сек"});
 Translation.addTranslation("waila.harvestable", {ru: "Можно добыть"});
 Translation.addTranslation("waila.material", {ru: "Материал"});
 Translation.addTranslation("waila.level", {ru: "Уровень добычи"});

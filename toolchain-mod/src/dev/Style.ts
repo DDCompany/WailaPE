@@ -1,4 +1,4 @@
-const DEFAULT_STYLE = {
+const Style = {
     OK: Color.GREEN,
     NO: Color.RED,
     DEF: Color.WHITE,
@@ -9,5 +9,3 @@ const DEFAULT_STYLE = {
     TEX_FRAME: "waila_frame.default",
     TEX_BAR_FRAME: "waila_bar_bg"
 };
-
-let Style = {};
