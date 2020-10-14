@@ -294,7 +294,7 @@ class Waila {
 
 Waila.init();
 
-Callback.addCallback("tick", function () {
+Callback.addCallback("LocalTick", function () {
     if (Waila.mayPopupShow()) {
         if (World.getThreadTime() % WailaConfig.checkTime === 0) {
             const pointed = getPointed();
