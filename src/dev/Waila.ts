@@ -117,7 +117,7 @@ class Waila {
         const id = compoundTag.getString("identifier");
         let yPos = 160;
 
-        elements["name"].text = customName.isEmpty() ? this.translate("waila.entity", "Entity") : customName;
+        elements["name"].text = customName ? this.translate("waila.entity", "Entity") : customName;
         elements["entityType"] = {
             type: "text",
             text: Waila.translate("waila.entity_type", "Entity Type") + ": " + id,
