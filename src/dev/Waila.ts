@@ -184,11 +184,9 @@ class Waila {
             this.lastHeight = this.height;
             elements["frame"].height = location.globalToWindow(this.height);
 
-            UI.getContext().runOnUiThread(new java.lang.Runnable({
-                run: function () {
-                    Waila.container.openAs(Waila.popupWindow);
-                }
-            }));
+            UI.getContext().runOnUiThread(() => {
+                Waila.container.openAs(Waila.popupWindow);
+            });
         }
 
         this.height = 35;
@@ -294,7 +292,7 @@ class Waila {
 
 Waila.init();
 
-Callback.addCallback("LocalTick", function () {
+Callback.addCallback("LocalTick", () => {
     if (Waila.mayPopupShow()) {
         if (World.getThreadTime() % WailaConfig.checkTime === 0) {
             const pointed = getPointed();
@@ -338,11 +336,11 @@ Callback.addCallback("LocalTick", function () {
     }
 });
 
-Callback.addCallback("NativeGuiChanged", function (screenName) {
+Callback.addCallback("NativeGuiChanged", screenName => {
     Waila.validNativeUI = screenName === "hud_screen" || screenName === "in_game_play_screen";
 });
 
-Callback.addCallback("ContainerOpened", function (container, window) {
+Callback.addCallback("ContainerOpened", (container, window) => {
     if (!window.isNotFocusable) { //WindowGroup
         OPENED_WINDOWS.push(window);
         return;
@@ -353,7 +351,7 @@ Callback.addCallback("ContainerOpened", function (container, window) {
     }
 });
 
-Callback.addCallback("ContainerClosed", function (container, window) {
+Callback.addCallback("ContainerClosed", (container, window) => {
     let index = OPENED_WINDOWS.indexOf(window);
     if (index !== -1) {
         OPENED_WINDOWS.splice(index, 1);
