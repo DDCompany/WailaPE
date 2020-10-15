@@ -262,6 +262,7 @@ class Waila {
         this.growthStages[blockId] = stages;
     }
 
+    // noinspection JSUnusedGlobalSymbols
     static addExtension(id: number, func: T_EXTENSION) {
         if (!id) {
             Logger.Log("Block id is not correct (Extension Registration)", "ERROR");
