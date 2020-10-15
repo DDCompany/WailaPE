@@ -4,7 +4,7 @@
 			"name": "WailaPE",
 			"description": "",
 			"author": "DDCompany",
-			"version": "v3.0-release",
+			"version": "release-4.0",
 			"icon": "src/mod_icon.png"
 		},
 		"api": "CoreEngine"
