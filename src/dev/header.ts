@@ -7,7 +7,7 @@
 
     by DDCompany (https://vk.com/forestry_pe)
  */
-IMPORT("Harvest_Core");
+IMPORT("CropLib");
 
 const getPointed = ModAPI.requireGlobal("Player.getPointed");
 const Color = android.graphics.Color;
