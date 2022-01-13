@@ -342,6 +342,10 @@ Callback.addCallback("NativeGuiChanged", screenName => {
 });
 
 Callback.addCallback("ContainerOpened", (container, window) => {
+    if(!window) {
+        return;
+    }
+
     if (!(window as UI.Window).isNotFocusable) { //WindowGroup
         OPENED_WINDOWS.push(window);
         return;
