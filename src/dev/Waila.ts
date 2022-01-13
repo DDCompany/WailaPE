@@ -1,7 +1,7 @@
 const OPENED_WINDOWS = [];
 
 interface BarDescription {
-    elements: UI.UIElementSet,
+    elements: UI.ElementSet,
     prefix: string,
     progress?: number,
     progressMax?: number,
@@ -11,7 +11,7 @@ interface BarDescription {
     fontColor?: number
 }
 
-type T_EXTENSION = (id: number, data: number, elements: UI.UIElementSet, tile: any | null, yPos: number) => number;
+type T_EXTENSION = (id: number, data: number, elements: UI.ElementSet, tile: any | null, yPos: number) => number;
 
 class Waila {
     static popupWindow: UI.Window;
@@ -88,7 +88,7 @@ class Waila {
         return translated !== key ? translated : defaultValue;
     }
 
-    static buildBlockInfo(id: number, data: number, elements: UI.UIElementSet) {
+    static buildBlockInfo(id: number, data: number, elements: UI.ElementSet) {
         let y = 100;
         let tile = World.getTileEntity(this.blockPos.x, this.blockPos.y, this.blockPos.z);
 
@@ -110,7 +110,7 @@ class Waila {
         }
     }
 
-    static buildEntityInfo(entity: number, type: number, elements: UI.UIElementSet) {
+    static buildEntityInfo(entity: number, type: number, elements: UI.ElementSet) {
         const compoundTag = Entity.getCompoundTag(entity);
         const customName = compoundTag.getString("CustomName");
         const age = compoundTag.getInt("Age");
@@ -164,7 +164,7 @@ class Waila {
             slot.id = block.id;
             slot.data = block.data;
 
-            let name = Item.getName(block.id, block.data);
+            const name = Item.getName(block.id, block.data).split("\n")[0];
             elements["name"].text = name.length <= 18 ? name : name.substr(0, 18) + "...";
 
             this.buildBlockInfo(block.id, block.data, elements);
@@ -342,12 +342,12 @@ Callback.addCallback("NativeGuiChanged", screenName => {
 });
 
 Callback.addCallback("ContainerOpened", (container, window) => {
-    if (!window.isNotFocusable) { //WindowGroup
+    if (!(window as UI.Window).isNotFocusable) { //WindowGroup
         OPENED_WINDOWS.push(window);
         return;
     }
 
-    if (!window.equals(Waila.popupWindow) && !window.isNotFocusable()) {
+    if (!window.equals(Waila.popupWindow) && !(window as UI.Window).isNotFocusable()) {
         OPENED_WINDOWS.push(window);
     }
 });
