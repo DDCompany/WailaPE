@@ -1,14 +1,22 @@
 {
   "enabled": true,
-  "x": 0,
-  "y": 30,
   "checkTime": 20,
+  "style": "transparent",
+  "position": {
+    "default": {
+      "x": 0,
+      "y": 30
+    },
+    "classic": {
+      "x": 0,
+      "y": 0
+    }
+  },
   "extensions": {
     "cropGrowth": true,
     "debugTiles": false,
     "energy": true,
     "material": true,
     "blockIdData": false
-  },
-  "style": "transparent"
+  }
 }

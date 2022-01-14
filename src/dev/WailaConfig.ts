@@ -1,8 +1,16 @@
 const WailaConfig = {
-    checkTime: __config__.getNumber("checkTime") as unknown as number,
-    x: __config__.getNumber("x"),
-    y: __config__.getNumber("y"),
+    checkTime: +__config__.getNumber("checkTime"),
     style: __config__.getString("style"),
+    position: {
+        classic: {
+            x: +__config__.getNumber("position.classic.x"),
+            y: +__config__.getNumber("position.classic.y"),
+        },
+        default: {
+            x: +__config__.getNumber("position.default.x"),
+            y: +__config__.getNumber("position.default.y"),
+        },
+    },
 
     extCropGrowth: __config__.getBool("extensions.cropGrowth"),
     extDebugTiles: __config__.getBool("extensions.debugTiles"),

@@ -13,6 +13,8 @@ interface BarDescription {
 
 type T_EXTENSION = (id: number, data: number, elements: UI.ElementSet, tile: any | null, yPos: number) => number;
 
+const NativeAPI = ModAPI.requireGlobal("com.zhekasmirnov.innercore.api.NativeAPI");
+
 class Waila {
     static popupWindow: UI.Window;
     static container = new UI.Container;
@@ -23,6 +25,7 @@ class Waila {
     static height = 35;
 
     static lastHeight: number;
+    static lastUiProfile: number;
     static lastTool: number;
     static blockPos: { x: number, y: number, z: number };
     static pointedEntity: number;
@@ -33,10 +36,11 @@ class Waila {
         this.setGrowthStages(142, 7);
         this.setGrowthStages(244, 7);
 
+        const {x, y} = this.getPositionFor(NativeAPI.getUiProfile())
         this.popupWindow = new UI.Window({
             location: {
-                x: WailaConfig.x,
-                y: WailaConfig.y,
+                x,
+                y,
                 width: 300,
                 height: this.height
             },
@@ -77,6 +81,10 @@ class Waila {
 
         this.popupWindow.setAsGameOverlay(true);
         this.popupWindow.setTouchable(false);
+    }
+
+    private static getPositionFor(profile: number) {
+        return profile === 0 ? WailaConfig.position.classic : WailaConfig.position.default;
     }
 
     static mayPopupShow() {
@@ -177,11 +185,14 @@ class Waila {
 
         this.height = Math.max(this.height, MINIMAL_WINDOW_HEIGHT);
 
-        if (this.lastHeight !== this.height || !this.container.isOpened()) {
-            let location = this.popupWindow.getLocation();
+        const profile = NativeAPI.getUiProfile();
+        if (this.lastHeight !== this.height || this.lastUiProfile !== profile || !this.container.isOpened()) {
+            const {x, y} = this.getPositionFor(profile)
+            const location = this.popupWindow.getLocation();
+            location.set(x, y, 300, this.height);
 
-            location.setSize(300, this.height);
             this.lastHeight = this.height;
+            this.lastUiProfile = profile;
             elements["frame"].height = location.globalToWindow(this.height);
 
             UI.getContext().runOnUiThread(() => {
@@ -342,7 +353,7 @@ Callback.addCallback("NativeGuiChanged", screenName => {
 });
 
 Callback.addCallback("ContainerOpened", (container, window) => {
-    if(!window) {
+    if (!window) {
         return;
     }
 
