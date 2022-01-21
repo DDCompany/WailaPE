@@ -118,7 +118,7 @@ class Waila {
         }
     }
 
-    static buildEntityInfo(entity: number, type: number, elements: UI.ElementSet) {
+    static buildEntityInfo(entity: number, type: number, elements: UI.ElementSet, entityHealth: number) {
         const compoundTag = Entity.getCompoundTag(entity);
         const customName = compoundTag.getString("CustomName");
         const age = compoundTag.getInt("Age");
@@ -148,7 +148,7 @@ class Waila {
         if (type < 64 || type > 103) {
             this.addBar({
                 elements: elements,
-                progress: Entity.getHealth(entity),
+                progress: entityHealth,
                 progressMax: Entity.getMaxHealth(entity),
                 prefix: "health",
                 yPos: yPos
@@ -156,7 +156,7 @@ class Waila {
         }
     }
 
-    static showPopup(block: Tile, entity?: number, type?: number) {
+    static showPopup(block: Tile, entity?: number, type?: number, entityHealth?: number) {
         let elements = this.popupWindow.getContent().elements;
 
         for (let i in elements) {
@@ -180,7 +180,7 @@ class Waila {
             slot.id = 383;
             slot.data = type;
 
-            this.buildEntityInfo(entity, type, elements);
+            this.buildEntityInfo(entity, type, elements, entityHealth);
         }
 
         this.height = Math.max(this.height, MINIMAL_WINDOW_HEIGHT);
@@ -300,6 +300,10 @@ class Waila {
     static requireHeight(value: number) {
         this.height += value;
     }
+
+    static isValidEntity(entity: number, type: number) {
+        return entity !== -1 && type !== 71;
+    }
 }
 
 Waila.init();
@@ -335,9 +339,9 @@ Callback.addCallback("LocalTick", () => {
                 return;
             }
 
-            let type = Entity.getType(entity);
-            if (entity !== -1 && type !== 71) {
-                Waila.showPopup(null, entity, type);
+            const type = Entity.getType(entity);
+            if (Waila.isValidEntity(entity, type)) {
+                Waila.showPopup(null, entity, type, Entity.getHealth(entity));
                 return;
             }
 
@@ -345,6 +349,21 @@ Callback.addCallback("LocalTick", () => {
         }
     } else if (Waila.container.isOpened()) {
         Waila.container.close();
+    }
+});
+
+Callback.addCallback("EntityHurt", (attacker, entity, damage) => {
+    if (Waila.pointedEntity === entity && Waila.container.isOpened()) {
+        const health = Entity.getHealth(entity) - damage;
+        if (health <= 0) {
+            Waila.container.close();
+            return;
+        }
+
+        const type = Entity.getType(entity);
+        if (Waila.isValidEntity(entity, type)) {
+            Waila.showPopup(null, entity, type, health);
+        }
     }
 });
 
