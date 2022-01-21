@@ -310,7 +310,7 @@ Waila.init();
 
 Callback.addCallback("LocalTick", () => {
     if (Waila.mayPopupShow()) {
-        if (World.getThreadTime() % WailaConfig.checkTime === 0) {
+        if (!(World.getThreadTime() % WailaConfig.checkTime)) {
             const pointed = getPointed();
             const pos = pointed.pos;
             const lastPos = Waila.blockPos;

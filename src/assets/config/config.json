@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "checkTime": 20,
+  "checkTime": 0,
   "style": "transparent",
   "position": {
     "default": {
