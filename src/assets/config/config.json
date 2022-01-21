@@ -4,11 +4,11 @@
   "style": "transparent",
   "position": {
     "default": {
-      "x": 0,
+      "x": 700,
       "y": 30
     },
     "classic": {
-      "x": 0,
+      "x": 700,
       "y": 0
     }
   },
