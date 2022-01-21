@@ -3,6 +3,17 @@
   },
   "oneprobe": {
     "TEX_FRAME": "waila_frame.oneprobe",
+    "TEXT_SHADOW": 0.6,
+    "OK": {
+      "r": 84,
+      "g": 252,
+      "b": 84
+    },
+    "NO": {
+      "r": 252,
+      "g": 84,
+      "b": 84
+    },
     "COLOR": {
       "r": 53,
       "g": 160,
