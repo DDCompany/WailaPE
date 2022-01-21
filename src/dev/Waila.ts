@@ -315,7 +315,9 @@ Callback.addCallback("LocalTick", () => {
             const pos = pointed.pos;
             const lastPos = Waila.blockPos;
 
-            if (lastPos && lastPos.x === pos.x && lastPos.y === pos.y && lastPos.z === pos.z) {
+            if (lastPos
+                && lastPos.x && lastPos.y && lastPos.z
+                && lastPos.x === pos.x && lastPos.y === pos.y && lastPos.z === pos.z) {
                 return;
             }
 
