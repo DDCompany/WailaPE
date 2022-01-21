@@ -1,4 +1,4 @@
-if(WailaConfig.extEnergy) {
+if (WailaConfig.extEnergy) {
 //Отображение количества энергии в TileEntity
     Waila.addGlobalExtension(function (id, data, elements, tile, yPos) {
         if (tile && tile.data.energy >= 0) {

@@ -9,7 +9,7 @@ if (WailaConfig.extCropGrowth) {
                 text: Waila.translate("waila.growth", "Growth") + ": " + Math.floor(data / growthStages * 100) + "%",
                 x: 200,
                 y: yPos,
-                font: {color: Style.DEF, size: 40}
+                font: StyleManager.getDefaultFont()
             };
             yPos += 60;
             Waila.requireHeight(20);

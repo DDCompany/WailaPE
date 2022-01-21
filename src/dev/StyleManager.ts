@@ -32,6 +32,7 @@ class StyleManager {
                 this.compileColor(style, "DEF");
                 this.compileColor(style, "MOD");
                 this.compileColor(style, "COLOR");
+                style.TEXT_SHADOW = +style.TEXT_SHADOW || 0;
 
                 this.styles[i] = style;
             }
@@ -48,6 +49,14 @@ class StyleManager {
         }
 
         obj[field] = Color.argb(style.a || 255, style.r, style.g, style.b);
+    }
+
+    static getDefaultFont() {
+        return {color: Style.DEF, size: 40, shadow: Style.TEXT_SHADOW};
+    }
+
+    static getTitleFont() {
+        return {color: Style.DEF, size: 50, shadow: Style.TEXT_SHADOW};
     }
 }
 

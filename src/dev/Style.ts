@@ -3,6 +3,7 @@ const Style = {
     NO: Color.RED,
     DEF: Color.WHITE,
     MOD: Color.rgb(85, 85, 255),
+    TEXT_SHADOW: 0,
 
     COLOR: Color.TRANSPARENT,
 

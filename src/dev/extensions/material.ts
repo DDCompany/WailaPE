@@ -9,7 +9,7 @@ if (WailaConfig.extMaterial) {
                 text: Waila.translate("waila.material", "Material") + ": " + blockData.material.name,
                 x: 200,
                 y: yPos,
-                font: {color: Style.DEF, size: 40}
+                font: StyleManager.getDefaultFont()
             };
             yPos += 60;
             elements["materialLevel"] = {
@@ -17,7 +17,7 @@ if (WailaConfig.extMaterial) {
                 text: Waila.translate("waila.level", "Level") + ": " + blockData.level,
                 x: 200,
                 y: yPos,
-                font: {color: Style.DEF, size: 40}
+                font: StyleManager.getDefaultFont()
             };
             yPos += 60;
             let validTool = Waila.isValidTool(blockData.material.name, blockData.level);
@@ -29,6 +29,7 @@ if (WailaConfig.extMaterial) {
                 font: {
                     color: validTool ? Style.OK : Style.NO,
                     size: 40,
+                    shadow: Style.TEXT_SHADOW
                 }
             };
             yPos += 60;

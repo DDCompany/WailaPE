@@ -6,7 +6,7 @@ if (WailaConfig.extBlockIdData) {
             text: "ID: " + id,
             x: 200,
             y: yPos,
-            font: {color: Style.DEF, size: 40}
+            font: StyleManager.getDefaultFont()
         };
         yPos += 60;
 
@@ -15,7 +15,7 @@ if (WailaConfig.extBlockIdData) {
             text: "Data: " + data,
             x: 200,
             y: yPos,
-            font: {color: Style.DEF, size: 40}
+            font: StyleManager.getDefaultFont()
         };
         yPos += 60;
 

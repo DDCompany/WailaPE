@@ -1,6 +1,5 @@
 {
   "default": {
-
   },
   "oneprobe": {
     "TEX_FRAME": "waila_frame.oneprobe",
@@ -12,6 +11,7 @@
     }
   },
   "transparent": {
-    "TEX_FRAME": "waila_frame.transparent"
+    "TEX_FRAME": "waila_frame.transparent",
+    "TEXT_SHADOW": 0.6
   }
 }

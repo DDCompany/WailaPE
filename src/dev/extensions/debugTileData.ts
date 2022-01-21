@@ -7,7 +7,7 @@ if (WailaConfig.extDebugTiles) {
                     text: i + ": " + tile.data[i],
                     x: 200,
                     y: yPos,
-                    font: {color: Style.DEF, size: 40}
+                    font: StyleManager.getDefaultFont()
                 };
                 yPos += 60;
                 Waila.requireHeight(20);

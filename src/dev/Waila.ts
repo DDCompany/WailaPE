@@ -74,7 +74,7 @@ class Waila {
                     text: "",
                     x: 200,
                     y: 30,
-                    font: {color: Style.DEF, size: 50}
+                    font: StyleManager.getTitleFont()
                 }
             }
         });
@@ -131,7 +131,7 @@ class Waila {
             text: Waila.translate("waila.entity_type", "Entity Type") + ": " + id,
             x: 200,
             y: 100,
-            font: {color: Style.DEF, size: 40}
+            font: StyleManager.getDefaultFont()
         };
 
         if (age < 0) {
@@ -140,7 +140,7 @@ class Waila {
                 text: Waila.translate("waila.growth", "Growth") + ": " + Math.floor(Math.abs(age) / 20) + Waila.translate("waila.s", "s"),
                 x: 200,
                 y: yPos,
-                font: {color: Style.DEF, size: 40}
+                font: StyleManager.getDefaultFont()
             };
             yPos += 60;
         }
@@ -238,7 +238,7 @@ class Waila {
             text: obj.progress + "/" + obj.progressMax,
             x: 215,
             y: yPos + 8,
-            font: {color: obj.fontColor || Color.WHITE, size: 40}
+            font: {color: obj.fontColor || Color.WHITE, size: 40, shadow: 0.5}
         };
     }
 
