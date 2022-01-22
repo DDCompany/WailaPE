@@ -6,19 +6,52 @@
         "ru": "Включен"
       }
     },
-    "x": {
+    "position": {
       "name": {
-        "en": "Window X Position",
-        "ru": "Позиция окна по оси X"
+        "en": "Window Position",
+        "ru": "Позиция окна"
+      }
+    },
+    "position.classic": {
+      "name": {
+        "en": "Classic Profile",
+        "ru": "Классический профиль"
+      }
+    },
+    "position.default": {
+      "name": {
+        "en": "Default Profile",
+        "ru": "Мобильный профиль"
+      }
+    },
+    "position.classic.x": {
+      "name": {
+        "en": "X",
+        "ru": "X"
       },
       "type": "SeekBar",
       "min": 0,
       "max": 700
     },
-    "y": {
+    "position.classic.y": {
       "name": {
-        "en": "Window Y Position",
-        "ru": "Позиция окна по оси Y"
+        "en": "Y",
+        "ru": "Y"
+      }
+    },
+    "position.default.x": {
+      "name": {
+        "en": "X",
+        "ru": "X"
+      },
+      "type": "SeekBar",
+      "min": 0,
+      "max": 700
+    },
+    "position.default.y": {
+      "name": {
+        "en": "Y",
+        "ru": "Y"
       }
     },
     "style": {
