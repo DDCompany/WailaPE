@@ -1,23 +1,8 @@
-## HEADER
-header.ts
-WailaConfig.ts
-
-## STYLES
-Style.ts
-StyleManager.ts
-
 ## API
-Waila.ts
+api/color/
+api/styles/
 
-### EXTENSIONS
-extensions/energy.ts
-extensions/debugTileData.ts
-extensions/cropGrowth.ts
-extensions/material.ts
-extensions/blockId.ts
-
-## LOCALIZATION
-translation.ts
-
-## SHARE MOD API
-shared.ts
+## IMPL
+impl/color/
+impl/styles/
+impl/header.ts

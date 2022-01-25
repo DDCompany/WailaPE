@@ -1,22 +1,3 @@
 {
-  "enabled": true,
-  "checkTime": 0,
-  "style": "transparent",
-  "position": {
-    "default": {
-      "x": 700,
-      "y": 30
-    },
-    "classic": {
-      "x": 700,
-      "y": 0
-    }
-  },
-  "extensions": {
-    "cropGrowth": true,
-    "debugTiles": false,
-    "energy": true,
-    "material": true,
-    "blockIdData": false
-  }
+  "enabled": true
 }
