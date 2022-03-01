@@ -1,8 +1,12 @@
 ## API
 api/color/
 api/styles/
+api/popup/
+api/extensions/
 
 ## IMPL
 impl/color/
 impl/styles/
+impl/popup/
+impl/extensions/
 impl/header.ts
