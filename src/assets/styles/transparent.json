@@ -1,15 +1,7 @@
 {
-  "titleFont": {
-    "shadow": 0.6
+  "version": 1,
+  "fontShadow": {
+    "s0": 0.6
   },
-  "defaultFont": {
-    "shadow": 0.6
-  },
-  "errorFont": {
-    "shadow": 0.6
-  },
-  "okFont": {
-    "shadow": 0.6
-  },
-  "frameImage": "waila.frame.transparent"
+  "frame": "waila.frame.transparent"
 }

@@ -1,40 +1,48 @@
 class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
+    private static MIN_VERSION = 1;
+    private static ACTUAL_VERSION = 1;
     private static DEFAULT_VALUES: WailaStyle = {
-        titleFont: {color: android.graphics.Color.WHITE, size: 50, shadow: 0},
-        defaultFont: {color: android.graphics.Color.WHITE, size: 40, shadow: 0},
-        errorFont: {color: android.graphics.Color.RED, size: 40, shadow: 0},
-        okFont: {color: android.graphics.Color.GREEN, size: 40, shadow: 0},
-        frameImage: "waila.frame.default",
-        itemsMargin: 10,
+        fontColor: {
+            default: android.graphics.Color.WHITE,
+            ok: android.graphics.Color.GREEN,
+            error: android.graphics.Color.RED
+        },
+        fontSize: {
+            s40: 40,
+            s50: 50
+        },
+        fontShadow: {
+            s0: 0
+        },
+        frame: "waila.frame.default",
         popupPadding: 10,
-        scaleImage: "waila.scale.default",
-        scaleFilledImage: "waila.scale.default_filled",
     };
 
     constructor(private readonly colorToInt: ColorToIntCompiler<ColorValue>) {
     }
 
     convert(from: JsonWailaStyle): WailaStyle {
+        const version = from.version;
+        if (version == undefined || version < JsonStyleConverter.MIN_VERSION || version > JsonStyleConverter.ACTUAL_VERSION) {
+            throw new VersionNotSupportedException(version, JsonStyleConverter.MIN_VERSION, JsonStyleConverter.ACTUAL_VERSION)
+        }
+
         const defaultValues = JsonStyleConverter.DEFAULT_VALUES;
         return {
-            ...defaultValues,
-            ...from,
-            titleFont: this.compileFont(from.titleFont, defaultValues.titleFont) || defaultValues.titleFont,
-            defaultFont: this.compileFont(from.defaultFont, defaultValues.defaultFont) || defaultValues.defaultFont,
-            errorFont: this.compileFont(from.errorFont, defaultValues.errorFont) || defaultValues.errorFont,
-            okFont: this.compileFont(from.okFont, defaultValues.okFont) || defaultValues.okFont,
+            fontSize: {...defaultValues.fontSize, ...from.fontSize},
+            fontShadow: {...defaultValues.fontShadow, ...from.fontShadow},
+            fontColor: from.fontColor ? this.compileColors(from.fontColor) : defaultValues.fontColor,
+            popupPadding: from.popupPadding ?? defaultValues.popupPadding,
+            frame: from.frame ?? defaultValues.frame,
         };
     }
 
-    private compileFont(font: Nullable<JsonFontDescription>, baseFont: UI.FontDescription): Nullable<UI.FontDescription> {
-        if (!font) {
-            return baseFont;
+    private compileColors(original: JsonFontColors): FontColors {
+        const compiled: Partial<FontColors> = {};
+        for (const [key, value] of Object.entries(original)) {
+            compiled[key] = this.colorToInt.compile(value as ColorValue);
         }
 
-        return {
-            ...baseFont,
-            ...font,
-            color: font.color ? this.colorToInt.compile(font.color) : baseFont.color
-        };
+        return compiled as FontColors;
     }
 }

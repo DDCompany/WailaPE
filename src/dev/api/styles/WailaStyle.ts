@@ -1,11 +1,22 @@
+interface FontSizes {
+    s40: number;
+    s50: number;
+}
+
+interface FontColors {
+    default: number;
+    ok: number;
+    error: number;
+}
+
+interface FontShadow {
+    s0: number;
+}
+
 interface WailaStyle {
-    defaultFont: UI.FontDescription;
-    errorFont: UI.FontDescription;
-    titleFont: UI.FontDescription;
-    okFont: UI.FontDescription;
-    frameImage: string;
-    scaleImage: string;
-    scaleFilledImage: string;
+    fontSize: FontSizes;
+    fontColor: FontColors;
+    fontShadow: FontShadow;
     popupPadding: number;
-    itemsMargin: number;
+    frame: string;
 }

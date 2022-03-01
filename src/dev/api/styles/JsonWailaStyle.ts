@@ -1,11 +1,10 @@
-interface JsonWailaStyle {
-    defaultFont: JsonFontDescription;
-    errorFont: JsonFontDescription;
-    titleFont: JsonFontDescription;
-    okFont: JsonFontDescription;
-    frameImage: string;
-    scaleImage: string;
-    scaleFilledImage: string;
-    popupPadding: number;
-    itemsMargin: number;
+interface JsonFontColors {
+    default: ColorValue;
+    ok: ColorValue;
+    error: ColorValue;
+}
+
+interface JsonWailaStyle extends WailaStyle {
+    version?: number,
+    fontColor: JsonFontColors;
 }
