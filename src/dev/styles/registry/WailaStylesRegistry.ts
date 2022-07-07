@@ -1,13 +1,17 @@
-class WailaStylesRepository implements StylesRepository<WailaStyle> {
+class WailaStylesRegistry implements StylesRegistry {
     private readonly styles: Record<string, WailaStyle>;
 
     constructor() {
         this.styles = {};
     }
 
+    get all(): Record<string, WailaStyle> {
+        return this.styles;
+    }
+
     register(name: string, style: WailaStyle): void {
         if (this.getByName(name)) {
-            throw new Error(`Style already registered: ${name}`);
+            throw new java.lang.IllegalArgumentException(`Style already registered: ${name}`);
         }
 
         this.styles[name] = style;
@@ -21,9 +25,5 @@ class WailaStylesRepository implements StylesRepository<WailaStyle> {
 
     getByName(name: string): Nullable<WailaStyle> {
         return this.styles[name] || null;
-    }
-
-    getAll(): Record<string, WailaStyle> {
-        return this.styles;
     }
 }

@@ -1,11 +1,11 @@
 type ExtensionsByType = {
     [PointedType.ANY]: ExtensionFunc<PointedTarget>[],
-    [PointedType.BLOCK]: ExtensionFunc<PointedBlock>[],
-    [PointedType.ENTITY]: ExtensionFunc<PointedEntity>[],
+    [PointedType.BLOCK]: BlockExtensionFunc[],
+    [PointedType.ENTITY]: EntityExtensionFunc[],
 }
 
-class WailaExtensionsRepository implements ExtensionsRepository {
-    private readonly extensions: ExtensionsByType
+class WailaExtensionsRegistry implements ExtensionsRegistry {
+    private readonly extensions: ExtensionsByType;
 
     constructor() {
         this.extensions = {

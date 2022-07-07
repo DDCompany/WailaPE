@@ -2,7 +2,7 @@ type ExtensionFunc<T extends PointedTarget> = (target: T, builder: PopupContentB
 type EntityExtensionFunc = ExtensionFunc<PointedEntity>
 type BlockExtensionFunc = ExtensionFunc<PointedBlock>
 
-interface ExtensionsRepository {
+interface ExtensionsRegistry {
     register(type: PointedType.ANY, func: ExtensionFunc<PointedTarget>): void;
 
     register(type: PointedType.ENTITY, func: EntityExtensionFunc): void;

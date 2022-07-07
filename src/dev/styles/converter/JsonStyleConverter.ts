@@ -18,7 +18,7 @@ class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
         popupPadding: 10,
     };
 
-    constructor(private readonly colorToInt: ColorToIntCompiler<ColorValue>) {
+    constructor(private readonly colorUtils: ColorUtils) {
     }
 
     convert(from: JsonWailaStyle): WailaStyle {
@@ -40,7 +40,7 @@ class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
     private compileColors(original: JsonFontColors): FontColors {
         const compiled: Partial<FontColors> = {};
         for (const [key, value] of Object.entries(original)) {
-            compiled[key] = this.colorToInt.compile(value as ColorValue);
+            compiled[key] = this.colorUtils.compile(value as ColorValue);
         }
 
         return compiled as FontColors;
