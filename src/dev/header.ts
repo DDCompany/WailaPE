@@ -3,9 +3,19 @@ const styleConverter = new JsonStyleConverter(colorUtils);
 const stylesLoader = new JsonStylesLoader(styleConverter);
 const stylesRegistry = new WailaStylesRegistry();
 const extensionsRegistry = new WailaExtensionsRegistry();
+const popupRenderer = new TextPopupRenderer();
 
 extensionsRegistry.register(PointedType.ENTITY, (target, builder) => {
     builder.text({value: `Entity: ${target.entity}`});
+});
+
+extensionsRegistry.register(PointedType.ENTITY, (target, builder) => {
+    const compoundTag = Entity.getCompoundTag(target.entity);
+    const customName = compoundTag.getString("CustomName");
+    const age = compoundTag.getInt("Age");
+    builder
+        .text({value: `Age: ${age}`})
+        .text({value: `Name: ${customName}`});
 });
 
 extensionsRegistry.register(PointedType.BLOCK, (target, builder) => {
@@ -18,21 +28,42 @@ extensionsRegistry.register(PointedType.ANY, (target, builder) => {
     builder.text({value: target instanceof PointedEntity ? "Is Entity" : "Is Block"});
 });
 
-Callback.addCallback("DestroyBlock", (coords, block, player) => {
+Callback.addCallback("LocalTick", () => {
+    if (World.getThreadTime() % 20 !== 0) {
+        return;
+    }
+
+    const pointed = Player.getPointed();
+    const builder = new PopupContentBuilder();
     const anyExtensions = extensionsRegistry.getByType(PointedType.ANY);
-    const blockExtensions = extensionsRegistry.getByType(PointedType.BLOCK);
-    const target = new ICPointedBlock(BlockSource.getDefaultForActor(player), coords.x, coords.y - 1, coords.z);
-    const builder = new DummyContentBuilder();
 
-    for (const extension of anyExtensions) {
-        extension(target, builder);
+    if (pointed.entity !== -1) {
+        const entityExtensions = extensionsRegistry.getByType(PointedType.ENTITY);
+        const target: PointedEntity = {
+            entity: pointed.entity,
+        };
+
+        for (const extension of anyExtensions) {
+            extension(target, builder);
+        }
+
+        for (const extension of entityExtensions) {
+            extension(target, builder);
+        }
+    } else if (pointed.block) {
+        const blockExtensions = extensionsRegistry.getByType(PointedType.BLOCK);
+        const target = new ICPointedBlock(BlockSource.getDefaultForActor(Player.get()), pointed.pos.x, pointed.pos.y, pointed.pos.z);
+
+        for (const extension of anyExtensions) {
+            extension(target, builder);
+        }
+
+        for (const extension of blockExtensions) {
+            extension(target, builder);
+        }
     }
 
-    for (const extension of blockExtensions) {
-        extension(target, builder);
-    }
-
-    Game.tipMessage(builder.build());
+    popupRenderer.onContentChanged(builder.build());
 });
 
 stylesRegistry.registerAll(stylesLoader.load(`${__dir__}styles`));
