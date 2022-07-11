@@ -7,11 +7,11 @@ class ICPointedBlock implements PointedBlock {
     ) {
     }
 
-    getBlock(): Tile {
+    get block(): Tile {
         return this.blockSource.getBlock(this.x, this.y, this.z);
     }
 
-    getTileEntity(): TileEntity {
+    get tileEntity(): Nullable<TileEntity> {
         return World.getTileEntity(this.x, this.y, this.z, this.blockSource);
     }
 }

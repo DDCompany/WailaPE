@@ -19,7 +19,7 @@ extensionsRegistry.register(PointedType.ENTITY, (target, builder) => {
 });
 
 extensionsRegistry.register(PointedType.BLOCK, (target, builder) => {
-    const block = target.getBlock();
+    const block = target.block;
     builder.text({value: Item.getName(block.id, block.data)});
     builder.text({value: `BlockId: ${block.id}`});
 });
