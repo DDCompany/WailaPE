@@ -1,7 +1,7 @@
-const colorUtils = new ColorUtils();
+const colorUtils = new ColorUtils() as ColorUtils;
 const styleConverter = new JsonStyleConverter(colorUtils);
 const stylesLoader = new JsonStylesLoader(styleConverter);
-const stylesRegistry = new WailaStylesRegistry();
+const stylesRegistry = new WailaStylesRegistry(stylesLoader) as StylesRegistry;
 const extensionsRegistry = new WailaExtensionsRegistry();
 const popupRenderer = new TextPopupRenderer();
 
@@ -66,5 +66,5 @@ Callback.addCallback("LocalTick", () => {
     popupRenderer.onContentChanged(builder.build());
 });
 
-stylesRegistry.registerAll(stylesLoader.load(`${__dir__}styles`));
+stylesRegistry.loadFromJson(`${__dir__}styles`)
 Debug.big(stylesRegistry.all);

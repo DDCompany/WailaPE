@@ -1,11 +1,11 @@
 class WailaStylesRegistry implements StylesRegistry {
     private readonly styles: Record<string, WailaStyle>;
 
-    constructor() {
+    constructor(private readonly jsonLoader: FileStylesLoader) {
         this.styles = {};
     }
 
-    get all(): Record<string, WailaStyle> {
+    get all(): Readonly<Record<string, WailaStyle>> {
         return this.styles;
     }
 
@@ -25,5 +25,10 @@ class WailaStylesRegistry implements StylesRegistry {
 
     getByName(name: string): Nullable<WailaStyle> {
         return this.styles[name] || null;
+    }
+
+    loadFromJson(path: string): void {
+        const styles = this.jsonLoader.load(path);
+        this.registerAll(styles);
     }
 }
