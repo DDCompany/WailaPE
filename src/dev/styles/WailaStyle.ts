@@ -1,6 +1,6 @@
 interface FontSizes {
-    s40: number;
-    s50: number;
+    title: number;
+    default: number;
 }
 
 interface FontColors {
@@ -9,25 +9,28 @@ interface FontColors {
     error: number;
 }
 
-interface FontShadow {
-    s0: number;
+interface FrameStyle {
+    texture: string;
+    fill: number;
 }
 
 interface WailaStyle {
+    frame: FrameStyle;
+    fontShadow: number;
+    popupPadding: number;
     fontSize: FontSizes;
     fontColor: FontColors;
-    fontShadow: FontShadow;
-    popupPadding: number;
-    frame: string;
 }
 
-interface JsonFontColors {
-    default: ColorValue;
-    ok: ColorValue;
-    error: ColorValue;
+type JsonFontColors = { [key in keyof FontColors]: ColorValue };
+
+interface JsonFrameStyle {
+    texture: string;
+    fill: ColorValue;
 }
 
 interface JsonWailaStyle extends WailaStyle {
     version?: number,
     fontColor: JsonFontColors;
+    frame: JsonFrameStyle;
 }

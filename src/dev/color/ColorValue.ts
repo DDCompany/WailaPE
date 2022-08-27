@@ -1,7 +1,7 @@
-type RgbColor = { r: number, g: number, b: number };
+type RgbaColor = { r: number, g: number, b: number, a: number };
 
 type HexColor = string;
 
 type IntColor = number;
 
-type ColorValue = RgbColor & HexColor & IntColor;
+type ColorValue = RgbaColor & HexColor & IntColor;

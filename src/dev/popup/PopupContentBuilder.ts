@@ -1,31 +1,54 @@
-enum PopupNodeType {
-    TEXT,
+interface CustomNode {
+    measure(scale: number): number;
+
+    draw(canvas: android.graphics.Canvas, x: number, y: number, scale: number): void;
+
+    [key: string]: any;
 }
 
-interface TextOptions {
-    value: string;
-    variant?: number;
-    color?: number;
-    shadow?: number;
-    align?: number;
-    bold?: boolean;
-    cursive?: boolean;
-    underline?: boolean;
-}
+type PopupContent = {
+    icon: {
+        id: number,
+        data: number,
+    },
+    nodes: CustomNode[];
+};
 
-type TextNode = TextOptions & { type: PopupNodeType.TEXT };
-
-type PopupContent = TextNode[];
+//TODO
+const font2 = new UI.Font({
+    size: 12,
+    color: android.graphics.Color.RED,
+    cursive: true,
+});
 
 class PopupContentBuilder {
     private readonly content: PopupContent;
 
-    constructor() {
-        this.content = [];
+    constructor(iconId: number, iconData: number) {
+        this.content = {
+            icon: {
+                id: iconId,
+                data: iconData,
+            },
+            nodes: [],
+        };
     }
 
-    text(options: TextOptions): this {
-        this.content.push({type: PopupNodeType.TEXT, ...options});
+    text(value: string): this {
+        this.content.nodes.push({
+            measure(scale) {
+                return font2.getTextHeight(value, 0, 0, scale) * 1.15;
+            },
+
+            draw(canvas, x, y, scale) {
+                font2.drawText(canvas, x, y + font2.getTextHeight(value, 0, 0, scale), value, scale);
+            }
+        })
+        return this;
+    }
+
+    custom(options: CustomNode): this {
+        this.content.nodes.push(options);
         return this;
     }
 

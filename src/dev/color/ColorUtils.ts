@@ -12,21 +12,10 @@ class ColorUtils {
         }
 
         if (typeof color === "string") {
-            return this.hexToDec(color);
+            return android.graphics.Color.parseColor(color);
         }
 
-        return this.rgbToDec(color);
-    }
-
-    private rgbToDec({r, g, b}: RgbColor) {
-        return (r << 16) + (g << 8) + (b);
-    }
-
-    private hexToDec(hex: string) {
-        if (hex[0] === "#") {
-            hex = hex.substring(1);
-        }
-
-        return parseInt(hex, 16);
+        let {a, r, g, b}: RgbaColor = color;
+        return android.graphics.Color.argb(a, r, g, b);
     }
 }

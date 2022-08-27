@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "fontShadow": {
-    "s0": 0.6
+  "frame": {
+    "texture": "waila.frame.oneprobe",
+    "fill": "#C835a0bb"
   },
   "fontColors": {
     "error": "#fc5454",
     "ok": "#54fc54"
-  },
-  "frame": "waila.frame.oneprobe"
+  }
 }

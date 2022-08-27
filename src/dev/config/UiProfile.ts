@@ -1,0 +1,4 @@
+enum UiProfile {
+    CLASSIC,
+    DEFAULT,
+}

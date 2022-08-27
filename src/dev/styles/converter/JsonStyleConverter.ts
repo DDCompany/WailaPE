@@ -2,20 +2,21 @@ class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
     private static MIN_VERSION = 1;
     private static ACTUAL_VERSION = 1;
     private static DEFAULT_VALUES: WailaStyle = {
+        popupPadding: 10,
+        fontShadow: .6,
+        frame: {
+            texture: "waila.frame.default",
+            fill: android.graphics.Color.TRANSPARENT,
+        },
         fontColor: {
             default: android.graphics.Color.WHITE,
             ok: android.graphics.Color.GREEN,
-            error: android.graphics.Color.RED
+            error: android.graphics.Color.RED,
         },
         fontSize: {
-            s40: 40,
-            s50: 50
+            title: 15,
+            default: 12,
         },
-        fontShadow: {
-            s0: 0
-        },
-        frame: "waila.frame.default",
-        popupPadding: 10,
     };
 
     constructor(private readonly colorUtils: ColorUtils) {
@@ -30,11 +31,23 @@ class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
         const defaultValues = JsonStyleConverter.DEFAULT_VALUES;
         return {
             fontSize: {...defaultValues.fontSize, ...from.fontSize},
-            fontShadow: {...defaultValues.fontShadow, ...from.fontShadow},
+            fontShadow: from.fontShadow ?? defaultValues.fontShadow,
             fontColor: from.fontColor ? this.compileColors(from.fontColor) : defaultValues.fontColor,
             popupPadding: from.popupPadding ?? defaultValues.popupPadding,
-            frame: from.frame ?? defaultValues.frame,
+            frame: this.mergeFrames(from.frame),
         };
+    }
+
+    private mergeFrames(original?: JsonFrameStyle): FrameStyle {
+        const defaultValues = JsonStyleConverter.DEFAULT_VALUES.frame;
+        if (!original) {
+            return defaultValues;
+        }
+
+        return {
+            texture: original.texture ?? defaultValues.texture,
+            fill: original.fill === undefined ? defaultValues.fill : this.colorUtils.compile(original.fill as ColorValue),
+        }
     }
 
     private compileColors(original: JsonFontColors): FontColors {

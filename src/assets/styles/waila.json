@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "fontShadow": 0,
+  "frame": {
+    "texture": "waila.frame.waila",
+    "fill": "#120211"
+  }
+}

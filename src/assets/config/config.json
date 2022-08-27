@@ -1,3 +1,17 @@
 {
-  "enabled": true
+  "enabled": true,
+  "style": "default",
+  "constraints": {
+    "classic": {
+      "position": {
+        "left": 10
+      }
+    },
+    "default": {
+      "position": {
+        "bottom": 0,
+        "centerHorizontally": true
+      }
+    }
+  }
 }
