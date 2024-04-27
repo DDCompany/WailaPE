@@ -125,7 +125,7 @@ class Waila {
         const id = compoundTag.getString("identifier");
         let yPos = 160;
 
-        elements["name"].text = customName ? this.translate("waila.entity", "Entity") : customName;
+        (elements["name"] as UI.UITextElement).text = customName ? this.translate("waila.entity", "Entity") : customName;
         elements["entityType"] = {
             type: "text",
             text: Waila.translate("waila.entity_type", "Entity Type") + ": " + id,
@@ -173,7 +173,7 @@ class Waila {
             slot.data = block.data;
 
             const name = Item.getName(block.id, block.data).split("\n")[0];
-            elements["name"].text = name.length <= 18 ? name : name.substr(0, 18) + "...";
+            (elements["name"] as UI.UITextElement).text = name.length <= 18 ? name : name.substr(0, 18) + "...";
 
             this.buildBlockInfo(block.id, block.data, elements);
         } else {
@@ -193,8 +193,9 @@ class Waila {
 
             this.lastHeight = this.height;
             this.lastUiProfile = profile;
-            elements["frame"].height = location.globalToWindow(this.height);
+            (elements["frame"] as UI.UIFrameElement).height = location.globalToWindow(this.height);
 
+            // @ts-ignore
             UI.getContext().runOnUiThread(() => {
                 Waila.container.openAs(Waila.popupWindow);
             });
@@ -259,11 +260,6 @@ class Waila {
         let stages = this.growthStages[id];
         if (stages) {
             return stages;
-        }
-
-        // @ts-ignore
-        if (CropRegistry.isCrop(id)) {
-            return 2;
         }
 
         return -1;
@@ -383,7 +379,7 @@ Callback.addCallback("ContainerOpened", (container, window) => {
         return;
     }
 
-    if (!window.equals(Waila.popupWindow) && !(window as UI.Window).isNotFocusable()) {
+    if (!(window as any).equals(Waila.popupWindow) && !(window as UI.Window).isNotFocusable()) {
         OPENED_WINDOWS.push(window);
     }
 });
