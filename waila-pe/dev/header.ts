@@ -75,7 +75,12 @@ Callback.addCallback("LocalTick", () => {
         const blockSource = BlockSource.getDefaultForActor(Player.get());
         const pointedBlock = blockSource.getBlock(pointed.pos.x, pointed.pos.y, pointed.pos.z);
         if (pointedBlock.id !== 0) {
-            builder = new PopupContentBuilder(pointedBlock.id, pointedBlock.data);
+            let id = pointedBlock.id;
+            if (id > 255 && id < 8196) {
+                id = 255 - id;
+            }
+
+            builder = new PopupContentBuilder(id, pointedBlock.data);
             const blockExtensions = extensionsRegistry.getByType(PointedType.BLOCK);
             const target = new ICPointedBlock(blockSource, pointed.pos.x, pointed.pos.y, pointed.pos.z);
 

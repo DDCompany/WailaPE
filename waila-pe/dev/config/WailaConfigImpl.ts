@@ -49,6 +49,7 @@ class WailaConfigImpl implements WailaConfig {
         }
 
         this.selectedStyle = style;
+        this.config.set("style", name);
         this.styleChangeListeners.forEach(listener => listener(style));
     }
 

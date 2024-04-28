@@ -11,7 +11,7 @@ class OpenedUiManagerImpl implements OpenedUiManager {
     ];
 
     private isPermittedNativeUi: boolean;
-    private readonly openedWindows: (UI.Window | UI.WindowGroup)[];
+    private readonly openedWindows: (UI.IWindow | UI.WindowGroup)[];
     private changeListener: ((canShow: boolean) => void) | null;
     private canShowLast: boolean | null;
 
@@ -24,7 +24,7 @@ class OpenedUiManagerImpl implements OpenedUiManager {
             this.onNativeUiChanged(screenName);
         });
 
-        Callback.addCallback("ContainerOpened", (container, window) => {
+        Callback.addCallback("ContainerOpened", (_, window) => {
             //The check was in previous versions of the mod. I don't know if it's still relevant.
             if (!window) {
                 return;
@@ -33,7 +33,7 @@ class OpenedUiManagerImpl implements OpenedUiManager {
             this.onWindowOpened(window);
         });
 
-        Callback.addCallback("ContainerClosed", (container, window) => {
+        Callback.addCallback("ContainerClosed", (_, window) => {
             this.onWindowClosed(window);
         });
     }
@@ -51,7 +51,7 @@ class OpenedUiManagerImpl implements OpenedUiManager {
         this.notifyChange();
     }
 
-    private onWindowOpened(window: UI.Window | UI.WindowGroup) {
+    private onWindowOpened(window: UI.IWindow | UI.WindowGroup) {
         if (!(window as UI.Window).isNotFocusable) { //WindowGroup
             this.openedWindows.push(window);
         } else if (!(window as any as UI.Window).isNotFocusable()) {
@@ -61,7 +61,7 @@ class OpenedUiManagerImpl implements OpenedUiManager {
         this.notifyChange();
     }
 
-    private onWindowClosed(window: UI.Window | UI.WindowGroup) {
+    private onWindowClosed(window: UI.IWindow | UI.WindowGroup) {
         const index = this.openedWindows.indexOf(window);
         if (index !== -1) {
             this.openedWindows.splice(index, 1);

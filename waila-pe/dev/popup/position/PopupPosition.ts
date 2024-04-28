@@ -26,12 +26,12 @@ class PopupPosition {
         }
 
         Debug.big(pos);
-        const right = pos.right ?? null;
-        const left = pos.left ?? (right === null ? 0 : null);
-        const bottom = pos.bottom ?? null;
-        const top = pos.top ?? (bottom === null ? 0 : null);
         const centerVertically = pos.centerVertically || false;
         const centerHorizontally = pos.centerHorizontally || false;
+        const right = pos.right ?? null;
+        const left = pos.left ?? (right === null ? (centerHorizontally ? null : 0) : null);
+        const bottom = pos.bottom ?? null;
+        const top = pos.top ?? (bottom === null ? (centerVertically ? null : 0) : null);
         Debug.big({
             left,
             top,

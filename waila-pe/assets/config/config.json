@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "style": "default",
+  "style": "oneprobe",
   "constraints": {
     "classic": {
       "position": {
@@ -9,7 +9,7 @@
     },
     "default": {
       "position": {
-        "bottom": 0,
+        "top": 0,
         "centerHorizontally": true
       }
     }

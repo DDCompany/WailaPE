@@ -37,10 +37,14 @@ class PopupContentBuilder {
     text(value: string): this {
         this.content.nodes.push({
             measure(scale) {
+                //TODO
+                // @ts-ignore
                 return font2.getTextHeight(value, 0, 0, scale) * 1.15;
             },
 
             draw(canvas, x, y, scale) {
+                //TODO
+                // @ts-ignore
                 font2.drawText(canvas, x, y + font2.getTextHeight(value, 0, 0, scale), value, scale);
             }
         })

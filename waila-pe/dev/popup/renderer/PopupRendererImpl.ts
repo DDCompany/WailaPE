@@ -1,9 +1,10 @@
-const ItemIconSource2: typeof ItemIconSource = ModAPI.requireGlobal("com.zhekasmirnov.innercore.api.mod.ui.icon.ItemIconSource");
+type FrameTexture = com.zhekasmirnov.innercore.api.mod.ui.types.FrameTexture;
+const ItemIconSource2: com.zhekasmirnov.innercore.api.mod.ui.icon.ItemIconSource = ModAPI.requireGlobal("com.zhekasmirnov.innercore.api.mod.ui.icon.ItemIconSource");
 
 class PopupRendererImpl implements PopupRenderer {
     private readonly window = new UI.Window();
     private displayedContent: Nullable<PopupContent>;
-    private texture: Nullable<UI.FrameTexture>;
+    private texture: Nullable<FrameTexture>;
 
     private icon: Nullable<android.graphics.Bitmap>;
     private cachedIconInfo: { id: number, data: number, size: number };
@@ -15,6 +16,7 @@ class PopupRendererImpl implements PopupRenderer {
         this.cachedIconInfo = {id: -1, data: -1, size: -1};
         this.displayedContent = null;
         this.icon = null;
+        //@ts-ignore
         this.window = new UI.Window({
             location: {
                 x: 0,
@@ -93,7 +95,7 @@ class PopupRendererImpl implements PopupRenderer {
         );
 
         const pos = config.activePosition.calculate(
-            1000,
+            canvas.getWidth(),
             UI.getScreenHeight() * scale,
             popupWidth,
             popupHeight
@@ -106,6 +108,9 @@ class PopupRendererImpl implements PopupRenderer {
             pos.x + popupWidth,
             pos.y + popupHeight,
         );
+
+        //TODO
+        // @ts-ignore
         this.texture.draw(canvas, textureRect, scale * 2, config.selectedStyle.frame.fill, null);
         if (this.icon) {
             canvas.drawBitmap(this.icon, pos.x + innerPadding, pos.y + innerPadding, null);
@@ -119,6 +124,7 @@ class PopupRendererImpl implements PopupRenderer {
             fromY += element.measure(scale);
         }
     }
+
     private invalidateIconIfNeeded(content: PopupContent, size: number) {
         const cached = this.cachedIconInfo;
         const icon = content.icon;
@@ -126,6 +132,8 @@ class PopupRendererImpl implements PopupRenderer {
             return;
         }
 
+        //TODO
+        // @ts-ignore
         this.icon = ItemIconSource2.instance.getScaledIcon(icon.id, icon.data, size);
         this.cachedIconInfo = {id: icon.id, data: icon.data, size};
     }

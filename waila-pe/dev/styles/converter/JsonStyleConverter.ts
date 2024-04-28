@@ -52,7 +52,8 @@ class JsonStyleConverter implements StyleConverter<JsonWailaStyle> {
 
     private compileColors(original: JsonFontColors): FontColors {
         const compiled: Partial<FontColors> = {};
-        for (const [key, value] of Object.entries(original)) {
+        for (const key in original) {
+            const value = original[key];
             compiled[key] = this.colorUtils.compile(value as ColorValue);
         }
 
